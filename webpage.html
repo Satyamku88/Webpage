@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webpage with Contact Form and To-Do List</title>
+    <style>
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Body and Layout Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Container Grid Layout */
+        .container {
+            display: grid;
+            grid-template-areas: 
+                "header"
+                "content";
+            max-width: 800px;
+            width: 100%;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Header Styling */
+        header {
+            grid-area: header;
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        /* Navigation Styling */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+        }
+
+        /* Content Grid Layout */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* Contact Form Styling */
+        .contact-form, .todo-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form h2, .todo-container h2 {
+            margin-bottom: 15px;
+            font-size: 1.25em;
+        }
+
+        .contact-form input,
+        .contact-form textarea,
+        .todo-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .contact-form button, .todo-container button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .contact-form button:hover, .todo-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* To-Do List Styling */
+        .todo-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .todo-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .todo-list li button {
+            background-color: #ff4d4d;
+            padding: 5px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Webpage</h1>
+        </header>
+        
+        <!-- Navigation -->
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+
+        <div class="content">
+            <!-- Contact Form Section -->
+            <div class="contact-form">
+                <h2>Contact Us</h2>
+                <form id="contactForm">
+                    <input type="text" id="name" placeholder="Your Name" required>
+                    <input type="email" id="email" placeholder="Your Email" required>
+                    <textarea id="message" placeholder="Your Message" rows="4" required></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            <!-- To-Do List Section -->
+            <div class="todo-container">
+                <h2>To-Do List</h2>
+                <input type="text" id="todoInput" placeholder="Add a new task...">
+                <button onclick="addTodo()">Add</button>
+                <ul id="todoList" class="todo-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Form Validation
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const message = document.getElementById("message").value.trim();
+
+            if (!name || !email || !message) {
+                alert("All fields are required!");
+                event.preventDefault();
+                return;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                event.preventDefault();
+            }
+        });
+
+        // JavaScript To-Do List Functionality
+        function addTodo() {
+            const todoInput = document.getElementById("todoInput");
+            const todoText = todoInput.value.trim();
+
+            if (todoText === "") {
+                alert("Please enter a task.");
+                return;
+            }
+
+            const todoList = document.getElementById("todoList");
+            const todoItem = document.createElement("li");
+
+            todoItem.innerHTML = `${todoText} <button onclick="removeTodo(this)">Remove</button>`;
+            todoList.appendChild(todoItem);
+
+            todoInput.value = "";
+        }
+
+        function removeTodo(button) {
+            const todoItem = button.parentElement;
+            todoItem.remove();
+        }
+    </script>
+</body>
+</html>
